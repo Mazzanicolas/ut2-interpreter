@@ -58,7 +58,6 @@ exp ->
   | exp "||" comp           {% ([lhs, , rhs]) => (new Disjunction(lhs, rhs)) %}
   | exp "if" exp "else" exp {% ([thenBody, ,cond, , elseBody]) => (new ThenIfElse(cond, thenBody, elseBody)) %}
   | exp "[" exp "]"         {% ([ex,,index,])=> (new Index(ex,index)) %}
-  | "length" "(" exp ")"    {% ([ , ,exp,])=>(new Length(exp)) %}
   | comp                    {% id %}
 
 comp ->
@@ -90,7 +89,8 @@ value ->
   | "true"                  {% () => (new TruthValue(true)) %}
   | "false"                 {% () => (new TruthValue(false)) %}
   | literals                {% ([literal]) => (new String(literal))%}
-  | identifier              {% ([id]) => (new Variable(id)) %}
+  | identifier              {% ([id]) => (new Variable(id)) %}  
+  | "length" "(" exp ")"    {% ([ , ,exp,])=>(new Length(exp)) %}
 
 
 # Atoms
