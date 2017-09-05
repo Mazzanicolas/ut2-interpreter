@@ -23,6 +23,7 @@ export class Addition implements Exp {
   }
 
   evaluate(state: State): any {
-    return undefined;
+    var result:number = this.lhs.evaluate(state) + this.rhs.evaluate(state);
+    return result;
   }
 }

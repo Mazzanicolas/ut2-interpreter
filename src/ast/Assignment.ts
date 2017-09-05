@@ -23,6 +23,7 @@ export class Assignment implements Stmt {
   }
 
   evaluate(state: State): State {
-    return undefined;
+    state.set(this.id,this.exp.evaluate(state));
+    return state;
   }
 }

@@ -4,16 +4,16 @@ import { State } from '../interpreter/State';
 /**
   Representación de constantes numéricas o numerales.
 */
-export class Numeral implements Exp {
+export class Length implements Exp {
 
-  value: number;
+  value: Exp;
 
-  constructor(value: number) {
+  constructor(value:Exp) {
     this.value = value;
   }
 
   toString(): string {
-    return `Numeral(${this.value})`;
+    return `Length(${this.value})`;
   }
 
   unparse(): string {
@@ -21,6 +21,7 @@ export class Numeral implements Exp {
   }
 
   evaluate(state: State): any {
-    return this.value;
+    console.log(typeof (this.value.evaluate(state).lenght));
+    return this.value.evaluate(state).length;
   }
 }

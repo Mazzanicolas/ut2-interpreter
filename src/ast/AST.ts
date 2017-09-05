@@ -4,6 +4,7 @@ export * from './ASTNode';
 // Statements
 export * from './Assignment';
 export * from './IfThenElse';
+export * from './ThenIfElse';
 export * from './IfThen';
 export * from './Sequence';
 export * from './WhileDo';
@@ -12,7 +13,10 @@ export * from './WhileDo';
 export * from './Addition';
 export * from './Multiplication';
 export * from './Division';
+export * from './Index';
+export * from './Length';
 export * from './Numeral';
+export * from './String';
 export * from './Substraction';
 export * from './Variable';
 

@@ -15,10 +15,14 @@ import {
   Disjunction,
   IfThenElse,
   IfThen,
+  ThenIfElse,
+  Index,
+  Length,
   Multiplication,
   Division,
   Negation,
   Numeral,
+  String,
   Sequence,
   Substraction,
   TruthValue,
@@ -35,7 +39,6 @@ const lexer = new MyLexer(tokens);
 
 @lexer lexer
 
-
 # Statements
 
 stmt ->
@@ -48,12 +51,14 @@ stmtelse ->
   | "while" exp "do" stmt                 {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
   | "if" exp "then" stmtelse "else" stmt  {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
 
-
 # Expressions
 
 exp ->
     exp "&&" comp           {% ([lhs, , rhs]) => (new Conjunction(lhs, rhs)) %}
   | exp "||" comp           {% ([lhs, , rhs]) => (new Disjunction(lhs, rhs)) %}
+  | exp "if" exp "else" exp {% ([thenBody, ,cond, , elseBody]) => (new ThenIfElse(cond, thenBody, elseBody)) %}
+  | exp "[" exp "]"         {% ([ex,,index,])=> (new Index(ex,index)) %}
+  | "length" "(" exp ")"    {% ([ , ,exp,])=>(new Length(exp)) %}
   | comp                    {% id %}
 
 comp ->
@@ -63,7 +68,7 @@ comp ->
   | comp "<" addsub         {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
   | comp ">=" addsub        {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
   | comp ">" addsub         {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
-  | addsub
+  | addsub                  {% id %}
 
 addsub ->
     addsub "+" muldiv       {% ([lhs, , rhs]) => (new Addition(lhs, rhs)) %}
@@ -84,6 +89,7 @@ value ->
   | number                  {% ([num]) => (new Numeral(num)) %}
   | "true"                  {% () => (new TruthValue(true)) %}
   | "false"                 {% () => (new TruthValue(false)) %}
+  | literals                {% ([literal]) => (new String(literal))%}
   | identifier              {% ([id]) => (new Variable(id)) %}
 
 
@@ -96,3 +102,5 @@ number ->
     %integer                {% ([id]) => (id.value) %}
   | %hex                    {% ([id]) => (id.value) %}
   | %float                  {% ([id]) => (id.value) %}
+literals ->
+  %literal                  {% ([id]) => (id.value) %}

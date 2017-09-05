@@ -21,6 +21,6 @@ export class Negation implements Exp {
   }
 
   evaluate(state: State): any {
-    return undefined;
+    return !this.exp.evaluate(state);
   }
 }

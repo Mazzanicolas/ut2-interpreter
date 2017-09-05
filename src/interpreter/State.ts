@@ -6,7 +6,7 @@ export class State {
     this.vars = new Map<string, any>();
   }
 
-  toString(): string {
+  toString(): string {  
     return `{ ${Array.from(this.vars.entries()).map(([key, value]) => (`${key} = ${value}`)).join("; ")} }`;
   }
 

@@ -4,16 +4,18 @@ import { State } from '../interpreter/State';
 /**
   Representación de constantes numéricas o numerales.
 */
-export class Numeral implements Exp {
+export class Index implements Exp {
 
-  value: number;
+  value: Exp;
+  index: Exp;
 
-  constructor(value: number) {
+  constructor(value:Exp,index:Exp) {
     this.value = value;
+    this.index = index;
   }
 
   toString(): string {
-    return `Numeral(${this.value})`;
+    return `Index(${this.value})`;
   }
 
   unparse(): string {
@@ -21,6 +23,6 @@ export class Numeral implements Exp {
   }
 
   evaluate(state: State): any {
-    return this.value;
+    return this.value.evaluate(state)[this.index.evaluate(state)];
   }
 }
