@@ -21,6 +21,6 @@ export class Numeral implements Exp {
   }
 
   evaluate(state: State): any {
-    return this.value;
+    return +this.value;
   }
 }
