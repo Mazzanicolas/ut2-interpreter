@@ -22,6 +22,9 @@ export class IfThen implements Stmt {
   }
 
   evaluate(state: State): State {
-    return undefined;
+    if(this.cond.evaluate(state)){
+      state = this.thenBody.evaluate(state);
+    }
+    return state;
   }
 }

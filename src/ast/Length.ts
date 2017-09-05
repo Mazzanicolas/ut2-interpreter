@@ -21,7 +21,6 @@ export class Length implements Exp {
   }
 
   evaluate(state: State): any {
-    console.log(typeof (this.value.evaluate(state).lenght));
     return this.value.evaluate(state).length;
   }
 }

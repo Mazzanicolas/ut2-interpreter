@@ -22,6 +22,9 @@ export class WhileDo implements Stmt {
   }
 
   evaluate(state: State): State {
-    return undefined;
+    while(this.cond.evaluate(state)){
+      state = this.body.evaluate(state);
+    }
+    return state;
   }
 }

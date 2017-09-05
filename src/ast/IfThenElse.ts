@@ -25,9 +25,10 @@ export class IfThenElse implements Stmt {
 
   evaluate(state: State): State {
     if(this.cond.evaluate(state)){
-      return this.thenBody.evaluate(state);
+      state= this.thenBody.evaluate(state);
     }else{
-      return this.elseBody.evaluate(state);
+      state= this.elseBody.evaluate(state);
     }
+    return state;
   }
 }

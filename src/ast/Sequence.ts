@@ -29,6 +29,9 @@ export class Sequence implements Stmt {
   }
 
   evaluate(state: State): State {
-    return undefined;
+    for(var i=0;i<this.statements.length;i++){
+      state= this.statements[i].evaluate(state);
+    }
+    return state;
   }
 }
