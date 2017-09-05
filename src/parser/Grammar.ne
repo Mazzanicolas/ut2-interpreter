@@ -27,7 +27,9 @@ import {
   Substraction,
   TruthValue,
   Variable,
-  WhileDo
+  WhileDo,
+  WhileDoElse,
+  DoWhile
 } from '../ast/AST';
 
 import { tokens } from './Tokens';
@@ -49,6 +51,8 @@ stmtelse ->
     identifier "=" exp ";"                {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
   | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
   | "while" exp "do" stmt                 {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
+  | "while" exp "do" stmt "else" stmt                {% ([, cond, , body, ,elseBody]) => (new WhileDoElse(cond, body,elseBody)) %}
+  | "do" stmt "while" exp                 {% ([, body, , cond])=>(new DoWhile(cond,body))%}
   | "if" exp "then" stmtelse "else" stmt  {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
 
 # Expressions
@@ -89,7 +93,7 @@ value ->
   | "true"                  {% () => (new TruthValue(true)) %}
   | "false"                 {% () => (new TruthValue(false)) %}
   | literals                {% ([literal]) => (new String(literal))%}
-  | identifier              {% ([id]) => (new Variable(id)) %}  
+  | identifier              {% ([id]) => (new Variable(id)) %}
   | "length" "(" exp ")"    {% ([ , ,exp,])=>(new Length(exp)) %}
 
 

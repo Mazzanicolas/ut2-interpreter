@@ -8,7 +8,8 @@ export * from './ThenIfElse';
 export * from './IfThen';
 export * from './Sequence';
 export * from './WhileDo';
-
+export * from './WhileDoElse';
+export * from './DoWhile';
 // AExp
 export * from './Addition';
 export * from './Multiplication';
