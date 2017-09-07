@@ -15,9 +15,7 @@ import {
   Disjunction,
   IfThenElse,
   IfThen,
-  ThenIfElse,
   Index,
-  Length,
   Multiplication,
   Division,
   Negation,
@@ -26,10 +24,7 @@ import {
   Sequence,
   Substraction,
   TruthValue,
-  Variable,
-  WhileDo,
-  WhileDoElse,
-  DoWhile
+  Variable
 } from '../ast/AST';
 
 import { tokens } from './Tokens';
@@ -50,9 +45,6 @@ stmt ->
 stmtelse ->
     identifier "=" exp ";"                {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
   | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
-  | "while" exp "do" stmt                 {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
-  | "while" exp "do" stmt "else" stmt                {% ([, cond, , body, ,elseBody]) => (new WhileDoElse(cond, body,elseBody)) %}
-  | "do" stmt "while" exp                 {% ([, body, , cond])=>(new DoWhile(cond,body))%}
   | "if" exp "then" stmtelse "else" stmt  {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
 
 # Expressions
@@ -60,7 +52,6 @@ stmtelse ->
 exp ->
     exp "&&" comp           {% ([lhs, , rhs]) => (new Conjunction(lhs, rhs)) %}
   | exp "||" comp           {% ([lhs, , rhs]) => (new Disjunction(lhs, rhs)) %}
-  | exp "if" exp "else" exp {% ([thenBody, ,cond, , elseBody]) => (new ThenIfElse(cond, thenBody, elseBody)) %}
   | exp "[" exp "]"         {% ([ex,,index,])=> (new Index(ex,index)) %}
   | comp                    {% id %}
 
@@ -94,8 +85,6 @@ value ->
   | "false"                 {% () => (new TruthValue(false)) %}
   | literals                {% ([literal]) => (new String(literal))%}
   | identifier              {% ([id]) => (new Variable(id)) %}
-  | "length" "(" exp ")"    {% ([ , ,exp,])=>(new Length(exp)) %}
-
 
 # Atoms
 
